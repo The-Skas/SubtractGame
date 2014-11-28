@@ -1,18 +1,17 @@
-require 'pry'
 
 $DEBUG = false
 
 def main
 	if(ARGV.length < 4)
 		puts "*Invalid Arguements*"
-		puts "Format: ruby subtract_number_game.rb [start_number] [val1] [val2] [val3] [isPlayerOne=optional]"
+		puts "Format: ruby subtract_number_game.rb [start_number] [[operator]val1] [[operator]val2] [[operator]val3] [isPlayerOne=optional]"
 		puts "       start_number: The number that represents the starting position"
 		puts "       val1        : A number to  substract the start_number"
 		puts "       val2        : A number to  substract the start_number"
 		puts "       val3        : A number to  substract the start_number"
 		puts "       isPlayerOne : A boolean representing if playerOne starts the first move"
 		puts ""
-		puts "       Example: ruby subtract_number_game.rb 9 2 3 5 true"
+		puts "       Example: ruby subtract_number_game.rb 9 -2 /3 *5 true"
 		puts ""
 	else
 
