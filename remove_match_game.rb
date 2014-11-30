@@ -1,10 +1,11 @@
 
-$DEBUG = true
+$DEBUG = false
 
 def main
 	if(ARGV.length < 4)
 		puts "*Invalid Arguements*"
-		puts "Format: ruby subtract_number_game.rb [start_number] [[operator]val1] [[operator]val2] [[operator]val3] [isPlayerOne=optional]"
+		puts "Format: ruby remove_match_game.rb [start_number] [[operator]val1] [[operator]val2] [[operator]val3] [isPlayerOne=optional]"
+		puts ""
 		puts "       start_number: The number that represents the starting position"
 		puts "       val1        : A number that either divides(/), subtracts(-), (*)multiplies the start_number"
 		puts "       val2        : A number that either divides(/), subtracts(-), (*)multiplies the start_number"
@@ -12,8 +13,8 @@ def main
 		puts "       operator    : an operator, representing wether to -(subtract) , +(add)  ,/(divide)"
 		puts "       isPlayerOne : A boolean representing if playerOne starts the first move"
 		puts ""
-		puts "       Example: ruby subtract_number_game.rb 10 -2 -3 /2 true"
-		puts ""
+		puts "       Example: > ruby remove_match_game.rb 10 -2 -3 /2 true"
+		puts "       Output:  > X(10) - 1"		
 	else
 
 		if(ARGV[4].nil?)
