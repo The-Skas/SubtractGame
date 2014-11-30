@@ -1,17 +1,18 @@
 
-$DEBUG = false
+$DEBUG = true
 
 def main
 	if(ARGV.length < 4)
 		puts "*Invalid Arguements*"
 		puts "Format: ruby subtract_number_game.rb [start_number] [[operator]val1] [[operator]val2] [[operator]val3] [isPlayerOne=optional]"
 		puts "       start_number: The number that represents the starting position"
-		puts "       val1        : A number to  substract the start_number"
-		puts "       val2        : A number to  substract the start_number"
-		puts "       val3        : A number to  substract the start_number"
+		puts "       val1        : A number that either divides(/), subtracts(-), (*)multiplies the start_number"
+		puts "       val2        : A number that either divides(/), subtracts(-), (*)multiplies the start_number"
+		puts "       val3        : A number that either divides(/), subtracts(-), (*)multiplies the start_number"
+		puts "       operator    : an operator, representing wether to -(subtract) , +(add)  ,/(divide)"
 		puts "       isPlayerOne : A boolean representing if playerOne starts the first move"
 		puts ""
-		puts "       Example: ruby subtract_number_game.rb 9 -2 /3 *5 true"
+		puts "       Example: ruby subtract_number_game.rb 10 -2 -3 /2 true"
 		puts ""
 	else
 
@@ -34,6 +35,13 @@ def subtract_game(start_number,val1 = 2,val2=3,val3=5, playerOne=true)
 	puts " X(#{start_number}) - #{(does_win ? 1 : 0)}"
 end
 
+
+
+=begin
+	This method's complexity is O(n^3) or n cubed.
+
+	if the number chosen is above 53. It takes ages to compute. :[]
+=end
 def recursive_who_wins(number, isPlayerOne,val1, val2, val3)
 
 	if(number.to_i <= 0)
@@ -70,17 +78,12 @@ def recursive_who_wins(number, isPlayerOne,val1, val2, val3)
 		if(possibleToCalc(number,val3))
 			any_wins = any_wins || recursive_who_wins(calculate(number,val3), !isPlayerOne, val1,val2,val3)
 		end
-		# if(number % val3 == 0)
-		# 	result = recursive_who_wins(number/val3, !isPlayerOne, val1,val2,val3)
-		# else
-		# 	result = false
-		# end
-		# 
-		# any_wins = any_wins || result
+		
 	else
 		# Extremely weird ruby bug when using recursion.
 		# any_wins &&= recurriveFunction WILL NOT EXECUTE THE RECURSION!!
-		result = false
+		any_wins = true
+		result = any_wins
 
 		if(possibleToCalc(number,val1))
 			result = recursive_who_wins(calculate(number,val1), !isPlayerOne, val1,val2,val3)
@@ -97,12 +100,6 @@ def recursive_who_wins(number, isPlayerOne,val1, val2, val3)
 			any_wins = any_wins && result
 		end
 
-		# if(number % val3 == 0)
-		# 	result = recursive_who_wins(number/val3, !isPlayerOne, val1,val2,val3)
-		# else
-		# 	result = false
-		# end
-		# any_wins = any_wins && result;
 	end
 
 	if($DEBUG)
@@ -112,6 +109,7 @@ def recursive_who_wins(number, isPlayerOne,val1, val2, val3)
 
 	return any_wins
 end
+
 # 			a = main_number
 # 			b = value
 # 			 ex b = '-2'
@@ -134,9 +132,25 @@ def calculate(a, b)
 end
 
 def possibleToCalc(a, b)
+
+	# Gets the operator from the string
 	operator = b[0]
+	
+	unless ["/","*","+","-"].include?(operator)
+		raise "Invalid operator symbol! -> #{b}"
+	end
+
+	# Converts num to int
 	a = a.to_i
+
+	# Gets the string without the operator, converts it to an int.
 	b = b[1..-1].to_i
+
+	# Should not be able to compute.
+	if(b == 0 && ["-","/","+"].include?(operator))
+		return false
+	end
+
 
 	if(operator == "/")
 		return a % b == 0
